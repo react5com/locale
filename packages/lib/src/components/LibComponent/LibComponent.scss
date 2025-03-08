@@ -1,0 +1,12 @@
+.r5te-lib-component {
+  background-color: $primary_bg_color;
+  color: $primary_text_color;
+  font-size: 2em;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  &__title {
+    font-weight: bold;
+  }
+}
