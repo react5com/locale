@@ -1,8 +1,19 @@
 import { createContext, useContext } from "react";
+import allLocales from "../../data/locales.json";
 
+declare namespace Intl {
+  type Key = "calendar" | "collation" | "currency" | "numberingSystem" | "timeZone" | "unit";
+
+  function supportedValuesOf(input: Key): string[];
+  const DateTimeFormat: any;
+}
 export class LocaleContextType {
-  public locale: string = 'en-US';
-  public timeZone: string = 'UTC';
+  public constructor(locale?: string, timeZone?: string) {
+    this.locale = locale || getCurrentLocale();
+    this.timeZone = timeZone || getCurrentTimeZone();
+  }
+  public locale: string;
+  public timeZone: string;
   public setLocale(locale: string) {
     this.locale = locale;
   }
@@ -13,9 +24,11 @@ export class LocaleContextType {
 export const LocaleContext = createContext<LocaleContextType>(new LocaleContextType());
 export interface LocaleContextProps {
   children: React.ReactNode;
+  locale?: string;
+  timeZone?: string;
 }
-export const LocaleContextProvider = ({children}: LocaleContextProps) => 
-  <LocaleContext.Provider value={new LocaleContextType()} >{children}</LocaleContext.Provider>;
+export const LocaleContextProvider = ({children, locale, timeZone}: LocaleContextProps) => 
+  <LocaleContext.Provider value={new LocaleContextType(locale, timeZone)} >{children}</LocaleContext.Provider>;
 
 export function formatDate(d?: Date, locale?: string): string {
   return (d || new Date()).toLocaleDateString(locale);
@@ -49,13 +62,21 @@ export const useLocale = () => {
   };
 }
 
-export function getCurrentLocale() {
+export function getCurrentLocale(): string {
   let l = Intl?.DateTimeFormat()?.resolvedOptions().locale;
   if (!l) {
     l = navigator.language;
   }
   return l ? l : 'en-US';
 }
-export function getCurrentTimeZone() {
-  return Intl?.DateTimeFormat()?.resolvedOptions().timeZone;
+export function getCurrentTimeZone(): string {
+  return Intl?.DateTimeFormat()?.resolvedOptions().timeZone || "UTC";
+}
+
+export function getAvailableLocales(): string[] {
+  return Intl?.DateTimeFormat?.supportedLocalesOf(allLocales) || [];
+}
+
+export function getAvailableTimeZones(): string[] {
+  return Intl?.supportedValuesOf("timeZone") || [];
 }
