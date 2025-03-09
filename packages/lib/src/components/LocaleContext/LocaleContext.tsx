@@ -21,3 +21,14 @@ export const useLocale = () => {
   const locale = useContext(LocaleContext);
   return { locale };
 }
+
+export function getCurrentLocale() {
+  let l = Intl?.DateTimeFormat()?.resolvedOptions().locale;
+  if (!l) {
+    l = navigator.language;
+  }
+  return l ? l : 'en-US';
+}
+export function getCurrentTimeZone() {
+  return Intl?.DateTimeFormat()?.resolvedOptions().timeZone;
+}
