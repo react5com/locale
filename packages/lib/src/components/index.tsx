@@ -1,2 +1,1 @@
-export * from "./LibComponent";
-export * from './Button'
+export * from './LocaleContext';

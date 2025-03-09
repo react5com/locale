@@ -3,14 +3,14 @@ import { createRoot } from 'react-dom/client'
 import './styles/1-reset.scss'
 import './styles/2-colors.scss'
 import './index.css'
-import { i18next } from './i18n';
-import { addTranslations } from '@react5/lib'
-addTranslations(i18next);
+import { LocaleContextProvider } from '@react5/lib'
 
 import App from './App.tsx'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <App />
+    <LocaleContextProvider>
+      <App />
+    </LocaleContextProvider>
   </StrictMode>,
 )

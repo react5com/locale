@@ -1,15 +1,18 @@
+import { useEffect } from 'react';
 import './App.css'
-import { LibComponent } from '@react5/lib'
-import '@react5/lib/dist/index.css'
-import { useTranslation } from 'react-i18next'
-import { translationNs } from './i18n/ns'
+import { useLocale } from '@react5/lib'
+import { Calendar } from './components';
 
 function App() {
-  const { t } = useTranslation(translationNs)
+  const { locale } = useLocale();
+  useEffect(() => {
+    locale.setLocale('fr-CA');
+    locale.setTimeZone('Europe/Athens');
+  }, [locale]);
   return (
     <>
-      <h1>{t('app.title')}</h1>
-      <LibComponent/>
+      <h1>App</h1>
+      <Calendar/>
     </>
   )
 }
