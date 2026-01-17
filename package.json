@@ -1,6 +1,6 @@
 {
   "name": "@react5/locale",
-  "version": "0.4.7",
+  "version": "0.4.8",
   "description": "Regional settings and locale context.",
   "homepage": "https://github.com/react5com/locale#readme",
   "bugs": {
